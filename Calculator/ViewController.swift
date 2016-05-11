@@ -13,11 +13,11 @@ class ViewController: UIViewController {
 //    instance variables are called properties in Swift
     
     // placing '!' at declaration allows us to remove the explanation after each usage
-    @IBOutlet weak var display: UILabel!
+    @IBOutlet private weak var display: UILabel!
     
-    var userIsInTheMiddleOfTyping = false
+    private var userIsInTheMiddleOfTyping = false
     
-    @IBAction func touchDigit(sender: UIButton) {
+    @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         // print("touchDigit: \(digit)")
         if userIsInTheMiddleOfTyping {
@@ -31,13 +31,28 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func performOperation(sender: UIButton) {
-        userIsInTheMiddleOfTyping = false
-        if let mathmaticalSymbol = sender.currentTitle {
-            if mathmaticalSymbol == "π" {
-                display.text = String(M_PI)
-            }
+    //computed property
+    private var displayValue: Double {
+        get {
+            return Double(display.text!)!
         }
+        set {
+            display.text = String(newValue)
+        }
+    }
+    
+    private var brain = CalculatorBrain()
+    
+    @IBAction private  func performOperation(sender: UIButton) {
+        if userIsInTheMiddleOfTyping {
+            brain.setOperand(displayValue)
+            userIsInTheMiddleOfTyping = false
+        }
+        
+        if let mathmaticalSymbol = sender.currentTitle {
+            brain.performOperation(mathmaticalSymbol)
+        }
+        displayValue = brain.result
     }
     
 }
