@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
-        // print("touchDigit: \(digit)")
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
             // must unwrap display with '!' because it's an optional
