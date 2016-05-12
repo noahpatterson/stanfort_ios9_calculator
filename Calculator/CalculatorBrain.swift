@@ -12,6 +12,18 @@ func multiply(firstNumber: Double, secondNumber: Double) -> Double {
     return firstNumber * secondNumber
 }
 
+func subtract(firstNumber: Double, secondNumber: Double) -> Double {
+    return firstNumber - secondNumber
+}
+
+func add(firstNumber: Double, secondNumber: Double) -> Double {
+    return firstNumber + secondNumber
+}
+
+func divide(firstNumber: Double, secondNumber: Double) -> Double {
+    return firstNumber / secondNumber
+}
+
 class CalculatorBrain {
     
     private var accumulator = 0.0
@@ -27,6 +39,9 @@ class CalculatorBrain {
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
         "cos" : Operation.UnaryOperation(cos),//cos
         "✕" : Operation.BinaryOperation(multiply),
+        "-" : Operation.BinaryOperation(subtract),
+        "+" : Operation.BinaryOperation(add),
+        "÷" : Operation.BinaryOperation(divide),
         "=" : Operation.Equals
     ]
     
@@ -40,30 +55,25 @@ class CalculatorBrain {
         case Equals
     }
     
-    private func intermediateEquals(pending: PendingBinaryOperationInfo) -> Double {
-        return pending.binaryFunction(pending.firstOperand, accumulator)
+    private func intermediateEquals() {
+        if pending != nil {
+            accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
+            pending = nil
+        }
     }
     
     
     
     func performOperation(symbol: String) {
-//        if let constant = operations[symbol] {
-//            accumulator = constant
-//        }
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let associatedConstantValue): accumulator = associatedConstantValue
             case .UnaryOperation(let function): accumulator = function(accumulator)
             case .BinaryOperation(let function):
-                if pending != nil {
-                    accumulator = intermediateEquals(pending!)
-                }
+                intermediateEquals()
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
             case .Equals:
-                if pending != nil {
-                    accumulator = intermediateEquals(pending!)
-                    pending = nil
-                }
+                intermediateEquals()
             }
         }
     }
