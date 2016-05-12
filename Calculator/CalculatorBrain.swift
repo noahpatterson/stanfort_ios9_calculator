@@ -8,10 +8,6 @@
 
 import Foundation
 
-func multiply(firstNumber: Double, secondNumber: Double) -> Double {
-    return firstNumber * secondNumber
-}
-
 func subtract(firstNumber: Double, secondNumber: Double) -> Double {
     return firstNumber - secondNumber
 }
@@ -38,7 +34,10 @@ class CalculatorBrain {
         "e" : Operation.Constant(M_E), //M_E,
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
         "cos" : Operation.UnaryOperation(cos),//cos
-        "✕" : Operation.BinaryOperation(multiply),
+        "✕" : Operation.BinaryOperation({(firstNumber: Double, secondNumber: Double) -> Double in
+            return firstNumber * secondNumber
+            }
+        ),
         "-" : Operation.BinaryOperation(subtract),
         "+" : Operation.BinaryOperation(add),
         "÷" : Operation.BinaryOperation(divide),
