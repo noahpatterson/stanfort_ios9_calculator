@@ -34,7 +34,7 @@ class CalculatorBrain {
         "e" : Operation.Constant(M_E), //M_E,
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
         "cos" : Operation.UnaryOperation(cos),//cos
-        "✕" : Operation.BinaryOperation({(firstNumber: Double, secondNumber: Double) -> Double in
+        "✕" : Operation.BinaryOperation({ (firstNumber, secondNumber) in
             return firstNumber * secondNumber
             }
         ),
