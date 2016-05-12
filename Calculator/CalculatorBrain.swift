@@ -8,18 +8,6 @@
 
 import Foundation
 
-func subtract(firstNumber: Double, secondNumber: Double) -> Double {
-    return firstNumber - secondNumber
-}
-
-func add(firstNumber: Double, secondNumber: Double) -> Double {
-    return firstNumber + secondNumber
-}
-
-func divide(firstNumber: Double, secondNumber: Double) -> Double {
-    return firstNumber / secondNumber
-}
-
 class CalculatorBrain {
     
     private var accumulator = 0.0
@@ -35,9 +23,9 @@ class CalculatorBrain {
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
         "cos" : Operation.UnaryOperation(cos),//cos
         "✕" : Operation.BinaryOperation({ $0 * $1 }),
-        "-" : Operation.BinaryOperation(subtract),
-        "+" : Operation.BinaryOperation(add),
-        "÷" : Operation.BinaryOperation(divide),
+        "-" : Operation.BinaryOperation({ $0 - $1 }),
+        "+" : Operation.BinaryOperation({ $0 + $1 }),
+        "÷" : Operation.BinaryOperation({ $0 / $1 }),
         "=" : Operation.Equals
     ]
     

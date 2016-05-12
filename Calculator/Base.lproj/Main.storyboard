@@ -163,7 +163,7 @@
                                 <rect key="frame" x="153" y="76" width="64" height="64"/>
                                 <color key="backgroundColor" red="0.87990837700000002" green="0.87990837700000002" blue="0.87990837700000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="−"/>
+                                <state key="normal" title="-"/>
                                 <connections>
                                     <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dBn-F9-t8g"/>
                                 </connections>
