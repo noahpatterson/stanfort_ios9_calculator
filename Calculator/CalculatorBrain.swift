@@ -34,10 +34,7 @@ class CalculatorBrain {
         "e" : Operation.Constant(M_E), //M_E,
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
         "cos" : Operation.UnaryOperation(cos),//cos
-        "✕" : Operation.BinaryOperation({ (firstNumber, secondNumber) in
-            return firstNumber * secondNumber
-            }
-        ),
+        "✕" : Operation.BinaryOperation({ return $0 * $1 }),
         "-" : Operation.BinaryOperation(subtract),
         "+" : Operation.BinaryOperation(add),
         "÷" : Operation.BinaryOperation(divide),
