@@ -16,7 +16,7 @@ class CalculatorBrain {
         accumulator = operand
     }
     
-    var operations: Dictionary<String, Operation>  = [
+    private var operations: Dictionary<String, Operation>  = [
         "clear" : Operation.Constant(0.0),
         "π" : Operation.Constant(M_PI), //M_PI,
         "e" : Operation.Constant(M_E), //M_E,
@@ -30,7 +30,7 @@ class CalculatorBrain {
     ]
     
     // enums can have methods, but no vars, no inheritance
-    enum Operation {
+    private enum Operation {
         case Constant(Double)
         /* unaryOperation defines an associated value that is a function, that takes a double
         , that returns a Double = func(Double) -> Double */
@@ -62,10 +62,10 @@ class CalculatorBrain {
         }
     }
     
-    var pending: PendingBinaryOperationInfo?
+    private var pending: PendingBinaryOperationInfo?
     
     // all of the structs vars are part of the 'free' initializer
-    struct PendingBinaryOperationInfo {
+    private struct PendingBinaryOperationInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
     }
