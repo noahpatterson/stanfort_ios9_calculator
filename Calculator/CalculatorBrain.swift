@@ -19,6 +19,7 @@ class CalculatorBrain {
     }
     
     private var operations: Dictionary<String, Operation>  = [
+        "rnd" : Operation.Rand,
         "clear" : Operation.Clear,
         "π" : Operation.Constant(M_PI), //M_PI,
         "e" : Operation.Constant(M_E), //M_E,
@@ -41,6 +42,7 @@ class CalculatorBrain {
         case BinaryOperation((Double, Double) -> Double, (String, String) -> String)
         case Equals
         case Clear
+        case Rand
     }
     
     private func intermediateEquals() {
@@ -77,6 +79,11 @@ class CalculatorBrain {
                 pending = nil
                 accumulator = 0.0
                 description = ""
+                
+            case .Rand:
+                accumulator = drand48()
+                description = "(rand)"
+                
             }
         }
     }
