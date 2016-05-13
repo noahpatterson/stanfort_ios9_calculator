@@ -52,15 +52,17 @@ class ViewController: UIViewController {
     }
     
     //computed property
-    private var displayValue: Double {
+    private var displayValue: Double? {
         get {
             let formatter = NSNumberFormatter()
             formatter.maximumFractionDigits = 6
             return Double(formatter.numberFromString(display.text!)!)
         }
         set {
-            display.text = String(format: "%g", newValue)
+            if let newDisplay = newValue {
+            display.text = String(format: "%g", newDisplay)
             descriptionLabel.text = brain.getIsPartialResult ? brain.getDescription + "..." : brain.getDescription + "="
+            }
         }
     }
     
@@ -68,7 +70,7 @@ class ViewController: UIViewController {
     
     @IBAction private  func performOperation(sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            brain.setOperand(displayValue)
+            brain.setOperand(displayValue!)
             userIsInTheMiddleOfTyping = false
         }
         
