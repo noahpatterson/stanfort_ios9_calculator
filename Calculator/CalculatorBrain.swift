@@ -11,9 +11,13 @@ import Foundation
 class CalculatorBrain {
     
     private var accumulator = 0.0
+    private var description = ""
+    private var isPartialResult = false
     
     func setOperand(operand: Double) {
         accumulator = operand
+        addToDescription(String(operand))
+        isPartialResult = true
     }
     
     private var operations: Dictionary<String, Operation>  = [
@@ -47,20 +51,38 @@ class CalculatorBrain {
         }
     }
     
-    
+    private func addToDescription(toAdd: String) {
+        description += toAdd
+    }
     
     func performOperation(symbol: String) {
         if let operation = operations[symbol] {
             switch operation {
-            case .Constant(let associatedConstantValue): accumulator = associatedConstantValue
-            case .UnaryOperation(let function): accumulator = function(accumulator)
+            case .Constant(let associatedConstantValue):
+                accumulator = associatedConstantValue
+                isPartialResult = true
+                addToDescription(symbol)
+                
+            case .UnaryOperation(let function):
+                accumulator = function(accumulator)
+                isPartialResult = true
+                addToDescription(symbol)
+                
             case .BinaryOperation(let function):
                 intermediateEquals()
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+                isPartialResult = true
+                addToDescription(symbol)
+                
             case .Equals:
                 intermediateEquals()
+//                description = ""
+                isPartialResult = false
+                
             case .Clear:
                 pending = nil
+                description = ""
+                isPartialResult = false
                 accumulator = 0.0
             }
         }
@@ -78,6 +100,18 @@ class CalculatorBrain {
     var result: Double {
         get {
             return accumulator
+        }
+    }
+    
+    var getDescription: String {
+        get {
+            return description
+        }
+    }
+    
+    var getIsPartialResult: Bool {
+        get {
+            return isPartialResult
         }
     }
     

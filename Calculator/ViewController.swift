@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     // placing '!' at declaration allows us to remove the explanation after each usage
     @IBOutlet private weak var display: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
     private var hasUsedDecimal = false
@@ -62,7 +63,8 @@ class ViewController: UIViewController {
             brain.performOperation(mathmaticalSymbol)
         }
         displayValue = brain.result
-        hasUsedDecimal = false
+//        hasUsedDecimal = false
+        
     }
     
 }
