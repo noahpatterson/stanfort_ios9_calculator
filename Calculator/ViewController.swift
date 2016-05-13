@@ -24,6 +24,18 @@ class ViewController: UIViewController {
             display.text = textToDisplay
     }
     
+    @IBAction private func backspace(sender: UIButton) {
+        if userIsInTheMiddleOfTyping {
+            let currentDisplay = display.text!
+            if (currentDisplay.characters.count == 1) {
+                displayValue = 0
+                userIsInTheMiddleOfTyping = false
+            } else {
+                display.text!.removeAtIndex(display.text!.endIndex.predecessor())
+            }
+        }
+    }
+    
     @IBAction private func touchDigit(sender: UIButton) {
         digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
