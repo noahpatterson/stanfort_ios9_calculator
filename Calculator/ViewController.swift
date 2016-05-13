@@ -54,7 +54,9 @@ class ViewController: UIViewController {
     //computed property
     private var displayValue: Double {
         get {
-            return Double(display.text!)!
+            let formatter = NSNumberFormatter()
+            formatter.maximumFractionDigits = 6
+            return Double(formatter.numberFromString(display.text!)!)
         }
         set {
             display.text = String(format: "%g", newValue)
