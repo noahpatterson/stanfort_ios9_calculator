@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     // placing '!' at declaration allows us to remove the explanation after each usage
     @IBOutlet private weak var display: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
     private var hasUsedDecimal = false
@@ -22,7 +22,6 @@ class ViewController: UIViewController {
     
     private func displayText(textToDisplay: String) {
             display.text = textToDisplay
-            hasUsedDecimal = true
     }
     
     @IBAction private func touchDigit(sender: UIButton) {
@@ -47,6 +46,7 @@ class ViewController: UIViewController {
         }
         set {
             display.text = String(newValue)
+            descriptionLabel.text = brain.getIsPartialResult ? brain.getDescription + "..." : brain.getDescription + "="
         }
     }
     
@@ -56,16 +56,15 @@ class ViewController: UIViewController {
         if userIsInTheMiddleOfTyping {
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
-           
         }
         
         if let mathmaticalSymbol = sender.currentTitle {
             brain.performOperation(mathmaticalSymbol)
         }
         displayValue = brain.result
-//        hasUsedDecimal = false
-        
+        if sender.currentTitle == "clear" {
+            descriptionLabel.text = " "
+        }
     }
-    
 }
 

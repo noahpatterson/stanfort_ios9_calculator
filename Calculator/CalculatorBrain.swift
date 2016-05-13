@@ -12,24 +12,23 @@ class CalculatorBrain {
     
     private var accumulator = 0.0
     private var description = ""
-    private var isPartialResult = false
     
     func setOperand(operand: Double) {
         accumulator = operand
-        addToDescription(String(operand))
-        isPartialResult = true
+        description = String(format: "%g", operand)
     }
     
     private var operations: Dictionary<String, Operation>  = [
         "clear" : Operation.Clear,
         "π" : Operation.Constant(M_PI), //M_PI,
         "e" : Operation.Constant(M_E), //M_E,
-        "√" : Operation.UnaryOperation(sqrt), //sqrt,
-        "cos" : Operation.UnaryOperation(cos),//cos
-        "✕" : Operation.BinaryOperation({ $0 * $1 }),
-        "-" : Operation.BinaryOperation({ $0 - $1 }),
-        "+" : Operation.BinaryOperation({ $0 + $1 }),
-        "÷" : Operation.BinaryOperation({ $0 / $1 }),
+        // unary operations should supply a second function that does the string formatting for description
+        "√" : Operation.UnaryOperation(sqrt, { "√(\($0))" }), //sqrt,
+        "cos" : Operation.UnaryOperation(cos, { "cos(\($0))" }),//cos
+        "✕" : Operation.BinaryOperation({ $0 * $1 }, { "\($0)✕\($1)" }),
+        "-" : Operation.BinaryOperation({ $0 - $1 }, { "\($0)-\($1)" }),
+        "+" : Operation.BinaryOperation({ $0 + $1 }, { "\($0)+\($1)" }),
+        "÷" : Operation.BinaryOperation({ $0 / $1 }, { "\($0)÷\($1)" }),
         "=" : Operation.Equals
     ]
     
@@ -38,8 +37,8 @@ class CalculatorBrain {
         case Constant(Double)
         /* unaryOperation defines an associated value that is a function, that takes a double
         , that returns a Double = func(Double) -> Double */
-        case UnaryOperation((Double) -> Double)
-        case BinaryOperation((Double, Double) -> Double)
+        case UnaryOperation((Double) -> Double, (String) -> String)
+        case BinaryOperation((Double, Double) -> Double, (String, String) -> String)
         case Equals
         case Clear
     }
@@ -47,6 +46,7 @@ class CalculatorBrain {
     private func intermediateEquals() {
         if pending != nil {
             accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
+            description = pending!.descriptionFunction(pending!.descriptionOperand, description)
             pending = nil
         }
     }
@@ -60,30 +60,23 @@ class CalculatorBrain {
             switch operation {
             case .Constant(let associatedConstantValue):
                 accumulator = associatedConstantValue
-                isPartialResult = true
-                addToDescription(symbol)
+                description = symbol
                 
-            case .UnaryOperation(let function):
+            case .UnaryOperation(let function, let descriptionFunction):
                 accumulator = function(accumulator)
-                isPartialResult = true
-                addToDescription(symbol)
+                description = descriptionFunction(description)
                 
-            case .BinaryOperation(let function):
+            case .BinaryOperation(let function, let descriptionFunction):
                 intermediateEquals()
-                pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
-                isPartialResult = true
-                addToDescription(symbol)
+                pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator, descriptionFunction: descriptionFunction, descriptionOperand: description)
                 
             case .Equals:
                 intermediateEquals()
-//                description = ""
-                isPartialResult = false
-                
+
             case .Clear:
                 pending = nil
-                description = ""
-                isPartialResult = false
                 accumulator = 0.0
+                description = ""
             }
         }
     }
@@ -94,6 +87,8 @@ class CalculatorBrain {
     private struct PendingBinaryOperationInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
+        var descriptionFunction: (String, String) -> String
+        var descriptionOperand: String
     }
     
     
@@ -105,13 +100,18 @@ class CalculatorBrain {
     
     var getDescription: String {
         get {
-            return description
+            if pending == nil {
+                return description
+            } else {
+                let pendingUnwrapped = pending!
+                return pendingUnwrapped.descriptionFunction(pendingUnwrapped.descriptionOperand, pendingUnwrapped.descriptionOperand != description ? description : "")
+            }
         }
     }
     
     var getIsPartialResult: Bool {
         get {
-            return isPartialResult
+            return pending != nil
         }
     }
     
