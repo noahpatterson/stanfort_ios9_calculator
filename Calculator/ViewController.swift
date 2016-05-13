@@ -19,22 +19,21 @@ class ViewController: UIViewController {
     private var hasUsedDecimal = false
     private var digit: String?
     
-    private func handlePeriod(textToDisplay: String) {
-        if digit != "." {
-            display.text = textToDisplay
-        } else if !hasUsedDecimal {
+    private func displayText(textToDisplay: String) {
             display.text = textToDisplay
             hasUsedDecimal = true
-        }
     }
     
     @IBAction private func touchDigit(sender: UIButton) {
         digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
-            handlePeriod(textCurrentlyInDisplay + digit!)
+            if digit! == "." && textCurrentlyInDisplay.rangeOfString(".") != nil {
+                return
+            }
+            displayText(textCurrentlyInDisplay + digit!)
         } else {
-            handlePeriod(digit!)
+            displayText(digit!)
         }
         userIsInTheMiddleOfTyping = true
         
