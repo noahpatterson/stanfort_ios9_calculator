@@ -17,7 +17,7 @@ class CalculatorBrain {
     }
     
     private var operations: Dictionary<String, Operation>  = [
-        "clear" : Operation.Constant(0.0),
+        "clear" : Operation.Clear,
         "π" : Operation.Constant(M_PI), //M_PI,
         "e" : Operation.Constant(M_E), //M_E,
         "√" : Operation.UnaryOperation(sqrt), //sqrt,
@@ -37,6 +37,7 @@ class CalculatorBrain {
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
         case Equals
+        case Clear
     }
     
     private func intermediateEquals() {
@@ -58,6 +59,9 @@ class CalculatorBrain {
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
             case .Equals:
                 intermediateEquals()
+            case .Clear:
+                pending = nil
+                accumulator = 0.0
             }
         }
     }
