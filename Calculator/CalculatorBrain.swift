@@ -19,6 +19,14 @@ class CalculatorBrain {
         description = String(format: "%g", operand)
         internalProgram.append(operand)
     }
+
+    func setOperand(variable: String) {
+        description = variable
+        internalProgram.append(variable)
+        performOperation(variable)
+    }
+    
+    var variableValues = [String : Double]()
     
     private var operations: Dictionary<String, Operation>  = [
         "rnd" : Operation.Rand,
@@ -32,7 +40,9 @@ class CalculatorBrain {
         "-" : Operation.BinaryOperation({ $0 - $1 }, { "\($0)-\($1)" }),
         "+" : Operation.BinaryOperation({ $0 + $1 }, { "\($0)+\($1)" }),
         "÷" : Operation.BinaryOperation({ $0 / $1 }, { "\($0)÷\($1)" }),
-        "=" : Operation.Equals
+        "=" : Operation.Equals,
+        "M" : Operation.Variable
+        
     ]
     
     // enums can have methods, but no vars, no inheritance
@@ -45,6 +55,7 @@ class CalculatorBrain {
         case Equals
         case Clear
         case Rand
+        case Variable
     }
     
     private func intermediateEquals() {
@@ -82,11 +93,18 @@ class CalculatorBrain {
                 pending = nil
                 accumulator = 0.0
                 description = ""
+                variableValues.removeAll()
                 
             case .Rand:
                 accumulator = drand48()
                 description = "(rand)"
                 
+            case .Variable:
+                if let variable = variableValues["M"] {
+                    accumulator = variable
+                } else {
+                    accumulator = 0.0
+                }
             }
         }
     }

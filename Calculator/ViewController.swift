@@ -63,6 +63,15 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func addVariable() {
+        brain.setOperand("M")
+        displayValue = brain.result
+    }
+    @IBAction func setVariable() {
+        brain.variableValues["M"] = displayValue
+        displayValue = brain.result
+    }
+    
     //computed property
     private var displayValue: Double? {
         get {
