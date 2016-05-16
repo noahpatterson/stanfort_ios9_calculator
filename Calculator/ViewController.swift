@@ -65,11 +65,13 @@ class ViewController: UIViewController {
     
     @IBAction func addVariable() {
         brain.setOperand("M")
-        displayValue = brain.result
+//        displayValue = brain.result
     }
     @IBAction func setVariable() {
         brain.variableValues["M"] = displayValue
-        displayValue = brain.result
+//        brain.performOperation("M")
+//        displayValue = brain.result
+        
     }
     
     //computed property

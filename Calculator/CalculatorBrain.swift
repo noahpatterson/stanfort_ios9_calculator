@@ -122,6 +122,9 @@ class CalculatorBrain {
     
     var result: Double {
         get {
+//            if variableValues["M"] != nil {
+//                
+//            }
             return accumulator
         }
     }
