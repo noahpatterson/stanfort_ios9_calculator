@@ -13,6 +13,7 @@ class CalculatorBrain {
     private var accumulator = 0.0
     private var description = ""
     private var internalProgram = [AnyObject]()
+    private var variableAdded = false
     
     func setOperand(operand: Double) {
         accumulator = operand
@@ -23,7 +24,7 @@ class CalculatorBrain {
     func setOperand(variable: String) {
         description = variable
         internalProgram.append(variable)
-        performOperation(variable)
+        variableAdded = true
     }
     
     var variableValues = [String : Double]()
@@ -122,9 +123,9 @@ class CalculatorBrain {
     
     var result: Double {
         get {
-//            if variableValues["M"] != nil {
-//                
-//            }
+            if variableAdded {
+                program = internalProgram
+            }
             return accumulator
         }
     }
@@ -172,7 +173,7 @@ class CalculatorBrain {
         pending = nil
         description = ""
         internalProgram.removeAll()
-       
+        variableAdded = false
     }
     
     
