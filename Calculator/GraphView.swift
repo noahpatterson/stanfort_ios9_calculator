@@ -31,6 +31,12 @@ class GraphView: UIView {
         recognizer.setTranslation(CGPointZero, inView: self.superview)
     }
     
+    func changeTapOrigin(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == .Ended {
+            graphOrigin = recognizer.locationInView(self)
+        }
+    }
+    
     func getOrigin() -> CGPoint {
         if let originPoint = graphOrigin {
             return originPoint

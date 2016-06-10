@@ -17,10 +17,15 @@ class GraphViewController: UIViewController {
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(
                 target: graphView, action: #selector(GraphView.changeScale(_:))
                 ))
+            
             let panGestureRecongizer = UIPanGestureRecognizer(target: graphView, action: #selector(GraphView.changeOrigin(_:)))
             panGestureRecongizer.maximumNumberOfTouches = 1
             panGestureRecongizer.minimumNumberOfTouches = 1
             graphView.addGestureRecognizer(panGestureRecongizer)
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: graphView, action: #selector(GraphView.changeTapOrigin(_:)))
+            tapGestureRecognizer.numberOfTapsRequired = 2
+            graphView.addGestureRecognizer(tapGestureRecognizer)
         }
     }
     
