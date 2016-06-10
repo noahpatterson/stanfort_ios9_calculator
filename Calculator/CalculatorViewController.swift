@@ -9,7 +9,7 @@
 //importing a module - all public classes are imported. Model might import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 //    instance variables are called properties in Swift
     
     // placing '!' at declaration allows us to remove the explanation after each usage
