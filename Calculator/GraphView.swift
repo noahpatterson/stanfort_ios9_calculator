@@ -15,24 +15,25 @@ class GraphView: UIView {
     var graphScale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
     private var graphOrigin: CGPoint? = nil { didSet { setNeedsDisplay() } }
     
-    func changeScale(recongizer: UIPinchGestureRecognizer) {
-        switch recongizer.state {
+    func changeScale(recognizer: UIPinchGestureRecognizer) {
+        switch recognizer.state {
         case .Changed, .Ended:
-            graphScale *= recongizer.scale
-            recongizer.scale = 1.0
+            graphScale *= recognizer.scale
+            recognizer.scale = 1.0
         default:
             break
         }
     }
     
-    func changeOrigin(recongizer: UIPanGestureRecognizer) {
-        graphOrigin = recongizer.translationInView(self)
-
+    func changeOrigin(recognizer: UIPanGestureRecognizer) {
+        let pannedTo: CGPoint = recognizer.translationInView(self.superview)
+        graphOrigin = CGPointMake(pannedTo.x + getOrigin().x, pannedTo.y + getOrigin().y)
+        recognizer.setTranslation(CGPointZero, inView: self.superview)
     }
     
     func getOrigin() -> CGPoint {
-        if let origin = graphOrigin {
-            return origin
+        if let originPoint = graphOrigin {
+            return originPoint
         } else {
             return CGPoint(x: bounds.midX, y: bounds.midY)
         }
