@@ -496,16 +496,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GraphViewController Place Holder" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0UC-IJ-WoF">
-                                <rect key="frame" x="117" y="165" width="366" height="189"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HNC-hp-75P" customClass="GraphView" customModule="Calculator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="HNC-hp-75P" secondAttribute="trailing" id="1Ma-ly-sBa"/>
+                            <constraint firstItem="HNC-hp-75P" firstAttribute="leading" secondItem="lhK-Wi-FPV" secondAttribute="leading" id="WEZ-nm-aHI"/>
+                            <constraint firstItem="HNC-hp-75P" firstAttribute="bottom" secondItem="Csk-JE-ThP" secondAttribute="top" id="drO-5I-o6Z"/>
+                            <constraint firstItem="HNC-hp-75P" firstAttribute="top" secondItem="2IV-jg-ukQ" secondAttribute="bottom" id="dyf-7d-QJv"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Graph" id="GbX-qS-b20"/>
+                    <connections>
+                        <outlet property="graphView" destination="HNC-hp-75P" id="9UI-9N-8dE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TjS-Ak-J98" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -12,6 +12,9 @@ class GraphViewController: UIViewController {
 
  
 
+    @IBOutlet weak var graphView: GraphView!
+    
+    
     /*
     // MARK: - Navigation
 
