@@ -103,5 +103,7 @@ class CalculatorViewController: UIViewController {
             descriptionLabel.text = " "
         }
     }
+    @IBAction private func graph(sender: UIButton) {
+    }
 }
 
