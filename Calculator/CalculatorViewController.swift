@@ -113,18 +113,18 @@ class CalculatorViewController: UIViewController {
         if let navController = destinationvc as? UINavigationController {
             destinationvc = navController.visibleViewController ?? destinationvc
         }
-//        if let facevc = destinationvc as? FaceViewController {
-//            if let identifier = segue.identifier {
-//                if let expression = emotionalFaces[identifier] {
-//                    facevc.expression = expression
-//                    if let sendingButton = sender as? UIButton {
-//                        facevc.navigationItem.title = sendingButton.currentTitle
-//                    }
-//                }
-//            }
-//        }
         
-        // Pass the selected object to the new view controller.
+        if let graphvc = destinationvc as? GraphViewController {
+            if let identifier = segue.identifier {
+                switch identifier {
+                    case "graph":
+                        graphvc.title = brain.getDescription == "" ? "Graph" : brain.getDescription.componentsSeparatedByString(", ").last
+                        graphvc.program = brain.program
+                default:
+                    break
+                }
+            }
+        }
     }
 
 }

@@ -8,12 +8,21 @@
 
 import UIKit
 
+protocol GraphViewDataSource: class {
+    func y(x: CGFloat) -> CGFloat?
+}
+
 @IBDesignable
 class GraphView: UIView {
+    
+    weak var dataSource: GraphViewDataSource?
     
     @IBInspectable
     var graphScale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
     private var graphOrigin: CGPoint? = nil { didSet { setNeedsDisplay() } }
+    
+    var lineWidth: CGFloat = 1.0
+    var color: UIColor = UIColor.blackColor() { didSet { setNeedsDisplay() } }
     
     func changeScale(recognizer: UIPinchGestureRecognizer) {
         switch recognizer.state {
@@ -51,6 +60,26 @@ class GraphView: UIView {
         
         axes.drawAxesInRect(rect, origin: getOrigin(), pointsPerUnit: graphScale)
         
+        color.set()
+        let path = UIBezierPath()
+        path.lineWidth = lineWidth
+        var firstValue = true
+        var point = CGPoint()
+        var i = 0
+        while i <= Int(bounds.size.width * contentScaleFactor) {
+            point.x = CGFloat(i) / contentScaleFactor
+            if let y = dataSource?.y((point.x - getOrigin().x) / graphScale) {
+                point.y = getOrigin().y - y * graphScale
+                if firstValue {
+                    path.moveToPoint(point)
+                    firstValue = false
+                } else {
+                    path.addLineToPoint(point)
+                }
+            }
+            i += 1
+        }
+        path.stroke()
         
     }
 }

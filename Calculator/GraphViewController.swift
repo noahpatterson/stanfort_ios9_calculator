@@ -8,17 +8,11 @@
 
 import UIKit
 
-class GraphViewController: UIViewController {
-    var toGraph = GraphData(graphFunction: nil, variable: nil) {
-        didSet {
-            //redraw graph
-        }
-    }
-
- 
-
+class GraphViewController: UIViewController, GraphViewDataSource {
+    
     @IBOutlet weak var graphView: GraphView! {
         didSet {
+            graphView.dataSource = self
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(
                 target: graphView, action: #selector(GraphView.changeScale(_:))
                 ))
@@ -32,6 +26,22 @@ class GraphViewController: UIViewController {
             tapGestureRecognizer.numberOfTapsRequired = 2
             graphView.addGestureRecognizer(tapGestureRecognizer)
         }
+    }
+    
+    private var brain = CalculatorBrain()
+    typealias PropertyList = AnyObject
+    var program: PropertyList {
+        get {
+            return brain.program
+        }
+        set {
+            brain.program = newValue
+        }
+    }
+    
+    func y(x: CGFloat) -> CGFloat? {
+        
+        return CGFloat(cos(Double(x)))
     }
     
     
