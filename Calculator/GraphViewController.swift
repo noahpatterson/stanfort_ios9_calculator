@@ -9,6 +9,11 @@
 import UIKit
 
 class GraphViewController: UIViewController {
+    var toGraph = GraphData(graphFunction: nil, variable: nil) {
+        didSet {
+            //redraw graph
+        }
+    }
 
  
 
