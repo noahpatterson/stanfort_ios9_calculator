@@ -117,7 +117,7 @@ class CalculatorViewController: UIViewController {
         if let graphvc = destinationvc as? GraphViewController {
             if let identifier = segue.identifier {
                 switch identifier {
-                    case "graph":
+                    case "show graph":
                         graphvc.title = brain.getDescription == "" ? "Graph" : brain.getDescription.componentsSeparatedByString(", ").last
                         graphvc.program = brain.program
                 default:
