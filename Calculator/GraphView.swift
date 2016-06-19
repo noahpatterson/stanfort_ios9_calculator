@@ -19,7 +19,7 @@ class GraphView: UIView {
     
     @IBInspectable
     var graphScale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
-    private var graphOrigin: CGPoint? = nil { didSet { setNeedsDisplay() } }
+    var graphOrigin: CGPoint? = nil { didSet { setNeedsDisplay() } }
     
     var lineWidth: CGFloat = 1.0
     var color: UIColor = UIColor.blackColor() { didSet { setNeedsDisplay() } }
